@@ -61,13 +61,31 @@ class Promos:
         self.consolidated = out
         return out
 
+class Bought:
+    def __init__(self, items, count):
+        self.items = items
+        self.count = count
+        self.mp = {}
+        self.create_mp()
+
+    def add(self, item, count):
+        self.items.append(item)
+        self.count.append(count)
+        self.create_mp[item] = count
+        return self.mp
+
+    def create_mp(self):
+        self.mp = dict(zip(self.items, self.count))
+        return self.mp
 
 if __name__ == "__main__":
     sku_ob = SKU(['A', 'B', 'C', 'D'], [50, 30, 20, 15])
     sku = sku_ob.create_mp()
 
     promos_ob = Promos([['A'], ['B'], ['C', 'D']], [[3], [2], [1,1]], [[3], [45], [30]])
-    promos = promos_ob.consolidated # [items] [no. of items] [promo_cost]
+    promos = promos_ob.consolidate # [items] [no. of items] [promo_cost]
 
-    bought = {'A': 5, 'B': 5, 'C': 1, 'D': 2}  # {item:no. of items}
+    bought_ob = Bought(['A', 'B', 'C', 'D'], [5, 5, 1, 2]) # {item:no. of items}
+    bought = bought_ob.create_mp()
+    print(bought)
     total_offer_value = apply(promos)
