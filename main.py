@@ -56,7 +56,7 @@ class Promos:
     def consolidate(self):
         out = []
         for i in range(len(self.item_list)):
-            temp = [self.item_list[i], self.item_cnt[i], self.item_cnt[i]]
+            temp = [self.item_list[i], self.item_cnt[i], self.offer_cost[i]]
             out.append(temp)
         self.consolidated = out
         return out
