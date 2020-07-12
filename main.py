@@ -21,10 +21,28 @@ def apply(promos):
                 tov += bought[stu] * sku[stu]  # add the amount not included in offer, for 2C+D this will add C
     return tov  # return the total amount
 
+class SKU:
+    def __init__(self, items, amounts):
+        self.items = items
+        self.amounts = amounts
+        self.mp = {}
+        self.create_mp()
+
+    def add(self, item, value):
+        self.items.append(item)
+        self.amounts.append(value)
+        self.create_mp[item] = value
+        return self.mp
+
+    def create_mp(self):
+        self.mp = dict(zip(self.items, self.amounts))
+        return self.mp
 
 
 if __name__ == "__main__":
-    sku = {'A': 50, 'B': 30, 'C': 20, 'D': 15}  # {item:cost}
+    sku = SKU(['A', 'B', 'C', 'D'], [50, 30, 20, 15])
+    print(sku.create_mp())
+#     sku = {'A': 50, 'B': 30, 'C': 20, 'D': 15}  # {item:cost}
     promos = [[['A'], [3], [130]], [['B'], [2], [45]],
               [['C', 'D'], [1, 1], [30]]]  # [items] [no. of items] [promo_cost]
     bought = {'A': 5, 'B': 5, 'C': 1, 'D': 2}  # {item:no. of items}
