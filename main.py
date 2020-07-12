@@ -39,11 +39,35 @@ class SKU:
         return self.mp
 
 
+class Promos:
+    def __init__(self, item_list, item_cnt, offer_cost):
+        self.item_list = item_list
+        self.item_cnt = item_cnt
+        self.offer_cost = offer_cost
+        self.consolidated = []
+        self.consolidate()
+
+    def add(self, item_list, item_cnt, offer_cost):
+        self.item_list.append(item_list)
+        self.item_cnt.append(item_cnt)
+        self.offer_cost.append(offer_cost)
+        self.consolidated.append([item_list, item_cnt, offer_cost])
+
+    def consolidate(self):
+        out = []
+        for i in range(len(self.item_list)):
+            temp = [self.item_list[i], self.item_cnt[i], self.item_cnt[i]]
+            out.append(temp)
+        self.consolidated = out
+        return out
+
+
 if __name__ == "__main__":
-    sku = SKU(['A', 'B', 'C', 'D'], [50, 30, 20, 15])
-    print(sku.create_mp())
-#     sku = {'A': 50, 'B': 30, 'C': 20, 'D': 15}  # {item:cost}
-    promos = [[['A'], [3], [130]], [['B'], [2], [45]],
-              [['C', 'D'], [1, 1], [30]]]  # [items] [no. of items] [promo_cost]
+    sku_ob = SKU(['A', 'B', 'C', 'D'], [50, 30, 20, 15])
+    sku = sku_ob.create_mp()
+
+    promos_ob = Promos([['A'], ['B'], ['C', 'D']], [[3], [2], [1,1]], [[3], [45], [30]])
+    promos = promos_ob.consolidated # [items] [no. of items] [promo_cost]
+
     bought = {'A': 5, 'B': 5, 'C': 1, 'D': 2}  # {item:no. of items}
     total_offer_value = apply(promos)
