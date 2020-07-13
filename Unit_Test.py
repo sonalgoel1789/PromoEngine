@@ -32,7 +32,7 @@ class PromoTest(unittest.TestCase):
         promos_ob = Promos([['A'], ['B'], ['C', 'D']], [[3], [2], [1, 1]], [[130], [45], [30]])
         promos = promos_ob.consolidate  # [items] [no. of items] [promo_cost]
 
-        bought_ob = Bought(['A', 'B', 'C', 'D'], [0, 0, 0, 0])  # {item:no. of items}
+        bought_ob = Bought([],[])  # {item:no. of items}
         final_amt = bought_ob.apply_promo(promos_ob, sku_ob)
 
         self.assertEqual(final_amt, 0)
