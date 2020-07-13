@@ -57,6 +57,7 @@ class Bought:
     def apply_promo(self, promos, sku):
         mp = {}
         tov = 0
+        count_flg = 0
         for p in promos.consolidate():  # iterate the promos
             min_times = 99999  # minimum times an offer should be applied, if 2C+D is an offer, only once is applied to D
             for its in range(len(p[0])):  # iterate the count in promo items, 2C+D has 2 for C and 1 for D
@@ -70,20 +71,17 @@ class Bought:
                     min_times = 0
                     break
             tov += min_times * (p[2][0])  # apply the offer
+
             for its in range(len(p[0])):
                 stu = p[0][its]
                 if stu in self.bought:
                     self.bought[stu] -= min_times * p[1][its]
                     tov += self.bought[stu] * sku.mp[stu]  # add the amount not included in offer, for 2C+D this will add C
+                    count_flg = 1
+        if count_flg ==0:
+           print("No items bought")
+
         return tov  # return the total amount
 
 if __name__ == "__main__":
-    sku_ob = SKU(['A', 'B', 'C', 'D'], [50, 30, 20, 15])
-    sku = sku_ob.create_mp()
-
-    promos_ob = Promos([['A'], ['B'], ['C', 'D']], [[3], [2], [1,1]], [[130], [45], [30]])
-    promos = promos_ob.consolidate # [items] [no. of items] [promo_cost]
-
-    bought_ob = Bought(['A', 'B', 'C', 'D'], [5, 5, 1, 2]) # {item:no. of items}
-    final_amt = bought_ob.apply_promo(promos_ob, sku_ob)
     print(final_amt)
